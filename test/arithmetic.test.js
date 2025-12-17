@@ -188,7 +188,7 @@ describe('Arithmetic', function () {
                     done();
                 });
         });
-        it('divides by zero', function (done) {
+        it('divides 0.5 by 2', function (done) {
             request.get('/arithmetic?operation=divide&operand1=0.5&operand2=2')
                 .expect(200)
                 .end(function (err, res) {
@@ -198,9 +198,114 @@ describe('Arithmetic', function () {
         });
         it('divides by zero', function (done) {
             request.get('/arithmetic?operation=divide&operand1=21&operand2=0')
+                .expect(400)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ error: "Division by zero" });
+                    done();
+                });
+        });
+    });
+
+    describe('Power', function () {
+        it('raises a positive integer to a positive power', function (done) {
+            request.get('/arithmetic?operation=power&operand1=2&operand2=3')
                 .expect(200)
                 .end(function (err, res) {
-                    expect(res.body).to.eql({ result: null });
+                    expect(res.body).to.eql({ result: 8 });
+                    done();
+                });
+        });
+        it('raises a number to the power of zero', function (done) {
+            request.get('/arithmetic?operation=power&operand1=5&operand2=0')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 1 });
+                    done();
+                });
+        });
+        it('raises zero to a positive power', function (done) {
+            request.get('/arithmetic?operation=power&operand1=0&operand2=5')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 0 });
+                    done();
+                });
+        });
+        it('raises a negative number to an even power', function (done) {
+            request.get('/arithmetic?operation=power&operand1=-2&operand2=4')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 16 });
+                    done();
+                });
+        });
+        it('raises a number to a fractional power', function (done) {
+            request.get('/arithmetic?operation=power&operand1=4&operand2=0.5')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 2 });
+                    done();
+                });
+        });
+    });
+
+    describe('Percentage', function () {
+        it('calculates percentage of a number', function (done) {
+            request.get('/arithmetic?operation=percentage&operand1=200&operand2=15')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 30 });
+                    done();
+                });
+        });
+        it('calculates percentage with decimal values', function (done) {
+            request.get('/arithmetic?operation=percentage&operand1=50.5&operand2=10')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 5.05 });
+                    done();
+                });
+        });
+        it('calculates percentage of zero', function (done) {
+            request.get('/arithmetic?operation=percentage&operand1=0&operand2=50')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 0 });
+                    done();
+                });
+        });
+    });
+
+    describe('Square Root', function () {
+        it('calculates square root of a perfect square', function (done) {
+            request.get('/arithmetic?operation=sqrt&operand1=16&operand2=0')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 4 });
+                    done();
+                });
+        });
+        it('calculates square root of a non-perfect square', function (done) {
+            request.get('/arithmetic?operation=sqrt&operand1=2&operand2=0')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body.result).to.be.closeTo(1.414, 0.001);
+                    done();
+                });
+        });
+        it('calculates square root of zero', function (done) {
+            request.get('/arithmetic?operation=sqrt&operand1=0&operand2=0')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 0 });
+                    done();
+                });
+        });
+        it('calculates square root of one', function (done) {
+            request.get('/arithmetic?operation=sqrt&operand1=1&operand2=0')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 1 });
                     done();
                 });
         });
