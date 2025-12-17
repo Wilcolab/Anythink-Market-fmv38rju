@@ -15,7 +15,15 @@ exports.calculate = function(req, res) {
     'add':      function(a, b) { return Number(a) + Number(b) },
     'subtract': function(a, b) { return a - b },
     'multiply': function(a, b) { return a * b },
-    'divide':   function(a, b) { return a / b },
+    'divide':   function(a, b) { 
+      if (Number(b) === 0) {
+        return Infinity;
+      }
+      return a / b;
+    },
+    'power':    function(a, b) { return Math.pow(Number(a), Number(b)) },
+    'percentage': function(a, b) { return Number(a) * Number(b) / 100 },
+    'sqrt':     function(a, b) { return Math.sqrt(Number(a)) },
   };
 
   if (!req.query.operation) {
