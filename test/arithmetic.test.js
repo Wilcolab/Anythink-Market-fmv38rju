@@ -188,7 +188,7 @@ describe('Arithmetic', function () {
                     done();
                 });
         });
-        it('divides by zero', function (done) {
+        it('divides 0.5 by 2', function (done) {
             request.get('/arithmetic?operation=divide&operand1=0.5&operand2=2')
                 .expect(200)
                 .end(function (err, res) {
@@ -198,9 +198,9 @@ describe('Arithmetic', function () {
         });
         it('divides by zero', function (done) {
             request.get('/arithmetic?operation=divide&operand1=21&operand2=0')
-                .expect(200)
+                .expect(400)
                 .end(function (err, res) {
-                    expect(res.body).to.eql({ result: Infinity });
+                    expect(res.body).to.eql({ error: "Division by zero" });
                     done();
                 });
         });

@@ -17,7 +17,7 @@ exports.calculate = function(req, res) {
     'multiply': function(a, b) { return a * b },
     'divide':   function(a, b) { 
       if (Number(b) === 0) {
-        return Infinity;
+        throw new Error("Division by zero");
       }
       return a / b;
     },
