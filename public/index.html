@@ -11,12 +11,16 @@
         <div id="result"><span class="digit0">0</span></div>
       </div>
 
-      <div id="loading" style="visibility:hidden"></div>
+      <div id="loading" style="visibility:hidden">
+        <div id="progress-bar">
+          <div id="progress-fill"></div>
+        </div>
+      </div>
 
       <div class="box">
         <div class="calculator">
           <div class="calculator-buttons">
-            <button class="btn span-2"></button>
+            <button class="btn span-2" onClick="operationPressed('%')">%</button>
             <button class="btn" onClick="clearPressed()">C</button>
             <button class="btn" onClick="clearPressed()">CE</button>
 
@@ -41,7 +45,9 @@
             <button class="btn" onClick="equalPressed()">=</button>
 
             <!-- TODO: Buttons -->
-          </div>
+             <!-- add a button for a power (or exponential) function -->
+            <button class="btn" onClick="operationPressed('^')">^</button>
+            <button class="btn" onClick="operationPressed('√')">√</button>
         </div>
       </div>
     </div>

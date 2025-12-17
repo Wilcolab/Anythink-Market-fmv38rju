@@ -33,6 +33,15 @@ function calculate(operand1, operand2, operation) {
         case '/':
             uri += "?operation=divide";
             break;
+        case '^':
+            uri += "?operation=power";
+            break;
+        case '%':
+            uri += "?operation=percentage";
+            break;
+        case '√':
+            uri += "?operation=sqrt";
+            break;
         default:
             setError();
             return;
@@ -111,9 +120,16 @@ function signPressed() {
 }
 
 function operationPressed(op) {
-    operand1 = getValue();
-    operation = op;
-    state = states.operator;
+    if (op === '√') {
+        // Unary operation - calculate immediately
+        operand1 = getValue();
+        calculate(operand1, 0, op); // operand2 is ignored for sqrt
+        state = states.complete;
+    } else {
+        operand1 = getValue();
+        operation = op;
+        state = states.operator;
+    }
 }
 
 function equalPressed() {
@@ -138,8 +154,10 @@ document.addEventListener('keypress', (event) => {
         numberPressed(event.key);
     } else if (event.key == '.') {
         decimalPressed();
-    } else if (event.key.match(/^[-*+/]$/)) {
+    } else if (event.key.match(/^[-*+/^%]$/)) {
         operationPressed(event.key);
+    } else if (event.key == 'r' || event.key == 'R') {
+        operationPressed('√');
     } else if (event.key == '=') {
         equalPressed();
     }
@@ -186,10 +204,26 @@ function setError(n) {
 }
 
 function setLoading(loading) {
+    var loadingDiv = document.getElementById("loading");
+    var progressFill = document.getElementById("progress-fill");
+    
     if (loading) {
-        document.getElementById("loading").style.visibility = "visible";
+        loadingDiv.style.visibility = "visible";
+        // Start progress animation
+        progressFill.style.width = "0%";
+        setTimeout(function() {
+            progressFill.style.width = "50%";
+        }, 100);
+        setTimeout(function() {
+            progressFill.style.width = "80%";
+        }, 300);
     } else {
-        document.getElementById("loading").style.visibility = "hidden";
+        // Complete progress and hide
+        progressFill.style.width = "100%";
+        setTimeout(function() {
+            loadingDiv.style.visibility = "hidden";
+            progressFill.style.width = "0%";
+        }, 500);
     }
 
     var buttons = document.querySelectorAll("BUTTON");
