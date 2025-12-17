@@ -204,10 +204,26 @@ function setError(n) {
 }
 
 function setLoading(loading) {
+    var loadingDiv = document.getElementById("loading");
+    var progressFill = document.getElementById("progress-fill");
+    
     if (loading) {
-        document.getElementById("loading").style.visibility = "visible";
+        loadingDiv.style.visibility = "visible";
+        // Start progress animation
+        progressFill.style.width = "0%";
+        setTimeout(function() {
+            progressFill.style.width = "50%";
+        }, 100);
+        setTimeout(function() {
+            progressFill.style.width = "80%";
+        }, 300);
     } else {
-        document.getElementById("loading").style.visibility = "hidden";
+        // Complete progress and hide
+        progressFill.style.width = "100%";
+        setTimeout(function() {
+            loadingDiv.style.visibility = "hidden";
+            progressFill.style.width = "0%";
+        }, 500);
     }
 
     var buttons = document.querySelectorAll("BUTTON");
