@@ -39,6 +39,18 @@ function calculate(operand1, operand2, operation) {
         case '√':
             uri += "?operation=sqrt";
             break;
+        case 'sin':
+            uri += "?operation=sin";
+            break;
+        case 'cos':
+            uri += "?operation=cos";
+            break;
+        case 'tan':
+            uri += "?operation=tan";
+            break;
+        case '%':
+            uri += "?operation=percentage";
+            break;
         default:
             setError();
             return;
@@ -117,10 +129,10 @@ function signPressed() {
 }
 
 function operationPressed(op) {
-    if (op === '√') {
+    if (op === '√' || op === 'sin' || op === 'cos' || op === 'tan') {
         // Unary operation - calculate immediately
         operand1 = getValue();
-        calculate(operand1, 0, op); // operand2 is ignored for sqrt
+        calculate(operand1, 0, op); // operand2 is ignored for unary ops
         state = states.complete;
     } else {
         operand1 = getValue();
@@ -212,4 +224,10 @@ function setLoading(loading) {
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].disabled = loading;
     }
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const toggle = document.getElementById('dark-mode-toggle');
+    toggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
 }
