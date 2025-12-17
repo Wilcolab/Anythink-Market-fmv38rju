@@ -35,6 +35,15 @@ BODY {
     background-position: center top;
 }
 
+#dark-mode-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+}
+
 #results {
     position: relative;
     top: 0;
@@ -175,6 +184,33 @@ BODY {
 
 .calculator {
     max-width: 320px;
+}
+
+/* Dark Mode Styles */
+.dark-mode BODY {
+    background-color: #121212;
+}
+
+.dark-mode .container {
+    background-image: none;
+    background-color: #1e1e1e;
+}
+
+.dark-mode #result {
+    background-color: #333;
+}
+
+.dark-mode .resultchar {
+    background-image: url('digits-dark.png'); /* Assuming you have a dark version */
+}
+
+.dark-mode .btn {
+    background-color: #444;
+    color: #fff;
+}
+
+.dark-mode .btn:hover {
+    background-color: #555;
 }
 
 .btn {
