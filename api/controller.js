@@ -24,6 +24,9 @@ exports.calculate = function(req, res) {
     'power':    function(a, b) { return Math.pow(Number(a), Number(b)) },
     'percentage': function(a, b) { return Number(a) * Number(b) / 100 },
     'sqrt':     function(a, b) { return Math.sqrt(Number(a)) },
+    'sin':      function(a, b) { return Math.sin(Number(a) * Math.PI / 180) },
+    'cos':      function(a, b) { return Math.cos(Number(a) * Math.PI / 180) },
+    'tan':      function(a, b) { return Math.tan(Number(a) * Math.PI / 180) },
   };
 
   if (!req.query.operation) {

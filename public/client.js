@@ -36,11 +36,20 @@ function calculate(operand1, operand2, operation) {
         case '^':
             uri += "?operation=power";
             break;
-        case '%':
-            uri += "?operation=percentage";
-            break;
         case '√':
             uri += "?operation=sqrt";
+            break;
+        case 'sin':
+            uri += "?operation=sin";
+            break;
+        case 'cos':
+            uri += "?operation=cos";
+            break;
+        case 'tan':
+            uri += "?operation=tan";
+            break;
+        case '%':
+            uri += "?operation=percentage";
             break;
         default:
             setError();
@@ -120,10 +129,10 @@ function signPressed() {
 }
 
 function operationPressed(op) {
-    if (op === '√') {
+    if (op === '√' || op === 'sin' || op === 'cos' || op === 'tan') {
         // Unary operation - calculate immediately
         operand1 = getValue();
-        calculate(operand1, 0, op); // operand2 is ignored for sqrt
+        calculate(operand1, 0, op); // operand2 is ignored for unary ops
         state = states.complete;
     } else {
         operand1 = getValue();
@@ -154,7 +163,7 @@ document.addEventListener('keypress', (event) => {
         numberPressed(event.key);
     } else if (event.key == '.') {
         decimalPressed();
-    } else if (event.key.match(/^[-*+/^%]$/)) {
+    } else if (event.key.match(/^[-*+/^]$/)) {
         operationPressed(event.key);
     } else if (event.key == 'r' || event.key == 'R') {
         operationPressed('√');
@@ -204,26 +213,10 @@ function setError(n) {
 }
 
 function setLoading(loading) {
-    var loadingDiv = document.getElementById("loading");
-    var progressFill = document.getElementById("progress-fill");
-    
     if (loading) {
-        loadingDiv.style.visibility = "visible";
-        // Start progress animation
-        progressFill.style.width = "0%";
-        setTimeout(function() {
-            progressFill.style.width = "50%";
-        }, 100);
-        setTimeout(function() {
-            progressFill.style.width = "80%";
-        }, 300);
+        document.getElementById("loading").style.visibility = "visible";
     } else {
-        // Complete progress and hide
-        progressFill.style.width = "100%";
-        setTimeout(function() {
-            loadingDiv.style.visibility = "hidden";
-            progressFill.style.width = "0%";
-        }, 500);
+        document.getElementById("loading").style.visibility = "hidden";
     }
 
     var buttons = document.querySelectorAll("BUTTON");
@@ -231,4 +224,10 @@ function setLoading(loading) {
     for (var i = 0; i < buttons.length; i++) {
         buttons[i].disabled = loading;
     }
+}
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    const toggle = document.getElementById('dark-mode-toggle');
+    toggle.textContent = document.body.classList.contains('dark-mode') ? '☀️' : '🌙';
 }

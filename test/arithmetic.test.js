@@ -353,4 +353,42 @@ describe('Arithmetic', function () {
                 });
         });
     });
+
+    describe('Power', function () {
+        it('raises a positive integer to a positive power', function (done) {
+            request.get('/arithmetic?operation=power&operand1=2&operand2=3')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 8 });
+                    done();
+                });
+        });
+    });
+
+    describe('Square Root', function () {
+        it('calculates square root of a perfect square', function (done) {
+            request.get('/arithmetic?operation=sqrt&operand1=16&operand2=0')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 4 });
+                    done();
+                });
+        });
+        it('calculates square root of a non-perfect square', function (done) {
+            request.get('/arithmetic?operation=sqrt&operand1=2&operand2=0')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body.result).to.be.closeTo(1.414, 0.001);
+                    done();
+                });
+        });
+        it('calculates square root of zero', function (done) {
+            request.get('/arithmetic?operation=sqrt&operand1=0&operand2=0')
+                .expect(200)
+                .end(function (err, res) {
+                    expect(res.body).to.eql({ result: 0 });
+                    done();
+                });
+        });
+    });
 });
